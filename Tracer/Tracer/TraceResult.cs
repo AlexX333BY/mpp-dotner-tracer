@@ -4,17 +4,16 @@ using System.Diagnostics;
 
 namespace Tracer
 {
-    [DataContract]
+    [DataContract(Name = "thread")]
     public class ThreadResult
     {
         private Stack<MethodResult> threadMethods;
         private List<MethodResult> tracedMethods;
 
-        [DataMember]
+        [DataMember(Name = "id")]
         public int ThreadID
         { get; internal set; }
 
-        [DataMember]
         public long Time
         {
             get
@@ -26,10 +25,16 @@ namespace Tracer
                 }
                 return time;
             }
+        }
+
+        [DataMember(Name = "time")]
+        public string TimeWithPostfix
+        {
+            get => Time.ToString() + "ms";
             private set { } // to allow serialization
         }
 
-        [DataMember]
+        [DataMember(Name = "methods")]
         public List<MethodResult> InnerMethods
         {
             get => new List<MethodResult>(tracedMethods);
@@ -72,28 +77,33 @@ namespace Tracer
         }
     }
 
-    [DataContract]
+    [DataContract(Name = "method")]
     public class MethodResult
     {
         private List<MethodResult> innerMethods;
         private Stopwatch stopWatch;
 
-        [DataMember]
+        [DataMember(Name = "name")]
         public string MethodName
         { get; internal set; }
 
-        [DataMember]
+        [DataMember(Name = "class")]
         public string ClassName
         { get; internal set; }
 
-        [DataMember]
         public long Time
         {
             get => stopWatch.ElapsedMilliseconds;
+        }
+
+        [DataMember(Name = "time")]
+        public string TimeWithPostfix
+        {
+            get => Time.ToString() + "ms";
             private set { } // to allow serialization
         }
 
-        [DataMember]
+        [DataMember(Name = "methods")]
         public List<MethodResult> InnerMethods
         {
             get => new List<MethodResult>(innerMethods);
@@ -122,13 +132,13 @@ namespace Tracer
         }
     }
 
-    [DataContract]
+    [DataContract(Name = "result")]
     public class TraceResult
     {
         private SortedDictionary<int, ThreadResult> threadResults;
         private readonly object threadLock;
 
-        [DataMember]
+        [DataMember(Name = "threads")]
         public List<ThreadResult> ThreadResults
         {
             get => new List<ThreadResult>(threadResults.Values);
