@@ -20,6 +20,10 @@ namespace Tracer
             {
                 threadMethods.Peek().AddInnerMethod(methodResult);
             }
+            else
+            {
+                tracedMethods.Add(methodResult);
+            }
             threadMethods.Push(methodResult);
         }
 
@@ -57,7 +61,7 @@ namespace Tracer
 
     public class TraceResult
     {
-        private Dictionary<int, ThreadResult> threadResults;
+        private SortedDictionary<int, ThreadResult> threadResults;
         private readonly object threadLock;
 
         public Dictionary<int, ThreadResult> ThreadResults
@@ -80,7 +84,7 @@ namespace Tracer
         internal TraceResult()
         {
             threadLock = new object();
-            threadResults = new Dictionary<int, ThreadResult>();
+            threadResults = new SortedDictionary<int, ThreadResult>();
         }
     }
 }
