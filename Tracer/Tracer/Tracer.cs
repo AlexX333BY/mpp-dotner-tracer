@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace Tracer
 {
@@ -25,7 +25,15 @@ namespace Tracer
 
         public void StopTrace()
         {
-            traceResult.GetThreadResult(Thread.CurrentThread.ManagedThreadId).StopTracingMethod();
+            int threadId = Thread.CurrentThread.ManagedThreadId;
+            try
+            {
+                traceResult.GetThreadResult(threadId).StopTracingMethod();
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new NoMethodTracingException(threadId);
+            }
         }
 
         public Tracer()
