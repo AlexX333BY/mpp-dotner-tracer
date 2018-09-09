@@ -4,9 +4,11 @@ namespace Tracer
 {
     public class Tracer : ITracer
     {
+        protected TraceResult traceResult;
+
         public TraceResult GetTraceResult()
         {
-            throw new NotImplementedException();
+            return traceResult;
         }
 
         public void StartTrace()
@@ -17,6 +19,11 @@ namespace Tracer
         public void StopTrace()
         {
             throw new NotImplementedException();
+        }
+
+        public Tracer()
+        {
+            traceResult = new TraceResult();
         }
     }
 }
