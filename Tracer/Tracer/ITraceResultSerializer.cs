@@ -2,10 +2,10 @@
 
 namespace Tracer
 {
-    interface ITraceResultSerializer
+    public interface ITraceResultSerializer
     {
         Stream Stream
-        { get; set; }
+        { set; }
 
         void SerializeTraceResult(TraceResult traceResult);
     }

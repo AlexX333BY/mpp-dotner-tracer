@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
+using System.Xml;
+using System.Runtime.Serialization.Json;
 
 namespace Tracer
 {
-    class JsonTraceResultSerializer : ITraceResultSerializer
+    public class JsonTraceResultSerializer : ITraceResultSerializer
     {
-        protected Stream stream;
+        public Stream Stream { protected get; set; }
 
         public void SerializeTraceResult(TraceResult traceResult)
         {
-            throw new NotImplementedException();
-        }
-
-        public void SetStream(Stream stream)
-        {
-            throw new NotImplementedException();
+            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(TraceResult));
+            XmlDictionaryWriter jsonWriter = JsonReaderWriterFactory.CreateJsonWriter(Stream, Encoding.UTF8, true, true);
+            jsonSerializer.WriteObject(jsonWriter, traceResult);
         }
 
         public JsonTraceResultSerializer()
         {
-            stream = null;
+            Stream = null;
         }
 
         public JsonTraceResultSerializer(Stream stream)
         {
-            this.stream = stream;
+            Stream = stream;
         }
     }
 }
