@@ -10,8 +10,18 @@ namespace Tracer
 
         public int ThreadID
         { get; internal set; }
-        public string Time
-        { get; internal set; }
+        public long Time
+        {
+            get
+            {
+                long time = 0;
+                foreach (MethodResult methodResult in tracedMethods)
+                {
+                    time += methodResult.Time;
+                }
+                return time;
+            }
+        }
         public List<MethodResult> InnerMethods
         { get => new List<MethodResult>(tracedMethods); }
 
@@ -60,8 +70,8 @@ namespace Tracer
         { get; internal set; }
         public string ClassName
         { get; internal set; }
-        public string Time
-        { get => stopWatch.ElapsedMilliseconds.ToString() + "ms"; }
+        public long Time
+        { get => stopWatch.ElapsedMilliseconds; }
         public List<MethodResult> InnerMethods
         { get => new List<MethodResult>(innerMethods); }
 
