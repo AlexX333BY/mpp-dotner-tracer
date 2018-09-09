@@ -4,7 +4,8 @@ namespace Tracer
 {
     interface ITraceResultSerializer
     {
-        void SetStream(Stream stream);
+        Stream Stream
+        { get; set; }
 
         void SerializeTraceResult(TraceResult traceResult);
     }
