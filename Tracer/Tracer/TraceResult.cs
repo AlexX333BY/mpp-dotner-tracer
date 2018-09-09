@@ -4,23 +4,29 @@ namespace Tracer
 {
     public class ThreadResult
     {
-        private List<MethodResult> threadMethods;
+        private Stack<MethodResult> threadMethods;
+        private List<MethodResult> tracedMethods;
 
         public int ThreadID
         { get; internal set; }
         public string Time
         { get; internal set; }
         public List<MethodResult> InnerMethods
-        { get => new List<MethodResult>(threadMethods); }
+        { get => new List<MethodResult>(tracedMethods); }
 
         internal void AddThreadMethod(MethodResult methodResult)
         {
-            threadMethods.Add(methodResult);
+            if (threadMethods.Count > 0)
+            {
+                threadMethods.Peek().AddInnerMethod(methodResult);
+            }
+            threadMethods.Push(methodResult);
         }
 
         internal ThreadResult(int id)
         {
-            threadMethods = new List<MethodResult>();
+            threadMethods = new Stack<MethodResult>();
+            tracedMethods = new List<MethodResult>();
             ThreadID = id;
         }
     }
