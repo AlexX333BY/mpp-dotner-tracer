@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Tracer
 {
@@ -38,15 +39,26 @@ namespace Tracer
     public class MethodResult
     {
         private List<MethodResult> innerMethods;
+        private Stopwatch stopWatch;
 
         public string MethodName
         { get; internal set; }
         public string ClassName
         { get; internal set; }
         public string Time
-        { get; internal set; }
+        { get => stopWatch.ElapsedMilliseconds.ToString() + "ms"; }
         public List<MethodResult> InnerMethods
         { get => new List<MethodResult>(innerMethods); }
+
+        internal void StartTrace()
+        {
+            stopWatch.Start();
+        }
+
+        internal void StopTrace()
+        {
+            stopWatch.Stop();
+        }
 
         internal void AddInnerMethod(MethodResult methodResult)
         {
@@ -56,6 +68,7 @@ namespace Tracer
         internal MethodResult()
         {
             innerMethods = new List<MethodResult>();
+            stopWatch = new Stopwatch();
         }
     }
 
