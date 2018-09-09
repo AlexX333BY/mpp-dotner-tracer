@@ -6,7 +6,9 @@ namespace Tracer
 {
     public class XmlTraceResultSerializer : ITraceResultSerializer
     {
-        public Stream Stream { protected get; set; }
+        public Stream Stream
+        { protected get; set; }
+
         protected readonly XmlWriterSettings xmlWriterSettings;
         protected readonly DataContractSerializer xmlSerializer;
 

@@ -2,7 +2,7 @@
 
 namespace Tracer
 {
-    class NoMethodTracingException : Exception
+    public class NoMethodTracingException : Exception
     {
         public int ThreadID
         { get; protected set; }

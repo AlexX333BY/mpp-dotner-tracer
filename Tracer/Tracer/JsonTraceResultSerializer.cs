@@ -7,7 +7,9 @@ namespace Tracer
 {
     public class JsonTraceResultSerializer : ITraceResultSerializer
     {
-        public Stream Stream { protected get; set; }
+        public Stream Stream
+        { protected get; set; }
+
         protected readonly DataContractJsonSerializer jsonSerializer;
 
         public void SerializeTraceResult(TraceResult traceResult)
