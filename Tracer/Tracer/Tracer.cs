@@ -20,8 +20,7 @@ namespace Tracer
             methodResult.ClassName = methodBase.ReflectedType.Name;
             methodResult.MethodName = methodBase.Name;
             ThreadResult curThreadResult = traceResult.AddOrGetThreadResult(Thread.CurrentThread.ManagedThreadId);
-            curThreadResult.AddThreadMethod(methodResult);
-            methodResult.StartTrace();
+            curThreadResult.StartTracingMethod(methodResult);
         }
 
         public void StopTrace()
