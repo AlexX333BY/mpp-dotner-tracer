@@ -1,15 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System.Runtime.Serialization;
+using System.Collections.Generic;
 using System.Diagnostics;
+
 
 namespace Tracer
 {
+    [DataContract]
     public class ThreadResult
     {
         private Stack<MethodResult> threadMethods;
         private List<MethodResult> tracedMethods;
 
+        [DataMember]
         public int ThreadID
         { get; internal set; }
+
+        [DataMember]
         public long Time
         {
             get
@@ -21,9 +27,15 @@ namespace Tracer
                 }
                 return time;
             }
+            private set { } // to allow serialization
         }
+
+        [DataMember]
         public List<MethodResult> InnerMethods
-        { get => new List<MethodResult>(tracedMethods); }
+        {
+            get => new List<MethodResult>(tracedMethods);
+            private set { } // to allow serialization
+        }
 
         protected void AddThreadMethod(MethodResult methodResult)
         {
@@ -61,19 +73,33 @@ namespace Tracer
         }
     }
 
+    [DataContract]
     public class MethodResult
     {
         private List<MethodResult> innerMethods;
         private Stopwatch stopWatch;
 
+        [DataMember]
         public string MethodName
         { get; internal set; }
+
+        [DataMember]
         public string ClassName
         { get; internal set; }
+
+        [DataMember]
         public long Time
-        { get => stopWatch.ElapsedMilliseconds; }
+        {
+            get => stopWatch.ElapsedMilliseconds;
+            private set { } // to allow serialization
+        }
+
+        [DataMember]
         public List<MethodResult> InnerMethods
-        { get => new List<MethodResult>(innerMethods); }
+        {
+            get => new List<MethodResult>(innerMethods);
+            private set { } // to allow serialization
+        }
 
         internal void StartTrace()
         {
@@ -97,13 +123,18 @@ namespace Tracer
         }
     }
 
+    [DataContract]
     public class TraceResult
     {
         private SortedDictionary<int, ThreadResult> threadResults;
         private readonly object threadLock;
 
-        public Dictionary<int, ThreadResult> ThreadResults
-        { get => new Dictionary<int, ThreadResult>(threadResults); }
+        [DataMember]
+        public List<ThreadResult> ThreadResults
+        {
+            get => new List<ThreadResult>(threadResults.Values);
+            private set { } // to allow serialization
+        }
 
         internal ThreadResult AddOrGetThreadResult(int id)
         {
