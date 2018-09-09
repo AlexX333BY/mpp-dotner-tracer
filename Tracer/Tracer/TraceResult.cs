@@ -109,6 +109,12 @@ namespace Tracer
             return threadResult;
         }
 
+        /// <exception cref="KeyNotFoundException">Thrown if there no thread with specified ID</exception>
+        internal ThreadResult GetThreadResult(int id)
+        {
+            return threadResults[id];
+        }
+
         internal TraceResult()
         {
             threadLock = new object();
