@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Tracer
 {
@@ -15,7 +16,7 @@ namespace Tracer
 
         public void StartTrace()
         {
-            MethodBase methodBase = MethodBase.GetCurrentMethod();
+            MethodBase methodBase = new StackTrace().GetFrame(1).GetMethod();
             MethodResult methodResult = new MethodResult();
             methodResult.ClassName = methodBase.ReflectedType.Name;
             methodResult.MethodName = methodBase.Name;
