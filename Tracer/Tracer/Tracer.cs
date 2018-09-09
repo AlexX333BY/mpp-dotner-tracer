@@ -25,7 +25,7 @@ namespace Tracer
 
         public void StopTrace()
         {
-            throw new NotImplementedException();
+            traceResult.GetThreadResult(Thread.CurrentThread.ManagedThreadId).StopTracingMethod();
         }
 
         public Tracer()
