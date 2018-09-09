@@ -57,18 +57,18 @@ namespace Tracer
         public Dictionary<int, ThreadResult> ThreadResults
         { get => new Dictionary<int, ThreadResult>(threadResults); }
 
-        internal ThreadResult AddThreadResult(int id)
+        internal ThreadResult AddOrGetThreadResult(int id)
         {
+            ThreadResult threadResult;
             lock(threadLock)
             {
-                ThreadResult threadResult;
                 if (!threadResults.TryGetValue(id, out threadResult))
                 {
                     threadResult = new ThreadResult(id);
-                    ThreadResults.Add(id, threadResult);
+                    threadResults.Add(id, threadResult);
                 }
-                return threadResult;
             }
+            return threadResult;
         }
 
         internal TraceResult()
