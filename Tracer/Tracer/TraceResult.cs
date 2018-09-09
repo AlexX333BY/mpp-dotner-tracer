@@ -15,7 +15,7 @@ namespace Tracer
         public List<MethodResult> InnerMethods
         { get => new List<MethodResult>(tracedMethods); }
 
-        internal void AddThreadMethod(MethodResult methodResult)
+        protected void AddThreadMethod(MethodResult methodResult)
         {
             if (threadMethods.Count > 0)
             {
@@ -26,6 +26,21 @@ namespace Tracer
                 tracedMethods.Add(methodResult);
             }
             threadMethods.Push(methodResult);
+        }
+
+        internal void StartTracingMethod(MethodResult methodResult)
+        {
+            AddThreadMethod(methodResult);
+            methodResult.StartTrace();
+        }
+
+        internal void StopTracingMethod()
+        {
+            if (threadMethods.Count == 0)
+            {
+                throw new NoMethodTracingException(ThreadID);
+            }
+            threadMethods.Pop().StopTrace();
         }
 
         internal ThreadResult(int id)
