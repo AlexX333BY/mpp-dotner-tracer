@@ -6,7 +6,7 @@ namespace Tracer
     {
         private List<MethodResult> threadMethods;
 
-        public string ThreadID
+        public int ThreadID
         { get; internal set; }
         public string Time
         { get; internal set; }
@@ -18,9 +18,10 @@ namespace Tracer
             threadMethods.Add(methodResult);
         }
 
-        internal ThreadResult()
+        internal ThreadResult(int id)
         {
             threadMethods = new List<MethodResult>();
+            ThreadID = id;
         }
     }
 
@@ -50,24 +51,30 @@ namespace Tracer
 
     public class TraceResult
     {
-        private List<ThreadResult> threadResults;
+        private Dictionary<int, ThreadResult> threadResults;
         private readonly object threadLock;
 
-        public List<ThreadResult> ThreadResults
-        { get => new List<ThreadResult>(threadResults); }
+        public Dictionary<int, ThreadResult> ThreadResults
+        { get => new Dictionary<int, ThreadResult>(threadResults); }
 
-        internal void AddThreadResult(ThreadResult threadResult)
+        internal ThreadResult AddThreadResult(int id)
         {
             lock(threadLock)
             {
-                threadResults.Add(threadResult);
+                ThreadResult threadResult;
+                if (!threadResults.TryGetValue(id, out threadResult))
+                {
+                    threadResult = new ThreadResult(id);
+                    ThreadResults.Add(id, threadResult);
+                }
+                return threadResult;
             }
         }
 
         internal TraceResult()
         {
             threadLock = new object();
-            threadResults = new List<ThreadResult>();
+            threadResults = new Dictionary<int, ThreadResult>();
         }
     }
 }

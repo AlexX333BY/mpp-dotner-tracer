@@ -4,7 +4,8 @@ namespace Tracer
 {
     public class Tracer : ITracer
     {
-        private bool isWorking;
+        protected bool isWorking;
+
         public bool IsWorking
         {
             get => isWorking;
