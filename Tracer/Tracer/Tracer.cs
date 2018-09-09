@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Reflection;
 
 namespace Tracer
 {
@@ -13,7 +15,13 @@ namespace Tracer
 
         public void StartTrace()
         {
-            throw new NotImplementedException();
+            MethodBase methodBase = MethodBase.GetCurrentMethod();
+            MethodResult methodResult = new MethodResult();
+            methodResult.ClassName = methodBase.ReflectedType.Name;
+            methodResult.MethodName = methodBase.Name;
+            ThreadResult curThreadResult = traceResult.AddOrGetThreadResult(Thread.CurrentThread.ManagedThreadId);
+            curThreadResult.AddThreadMethod(methodResult);
+            methodResult.StartTrace();
         }
 
         public void StopTrace()
