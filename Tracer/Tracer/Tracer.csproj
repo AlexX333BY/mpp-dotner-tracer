@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleTraceResultWriter.cs" />
+    <Compile Include="FileTraceResultWriter.cs" />
     <Compile Include="ITracer.cs" />
     <Compile Include="ITraceResultSerializer.cs" />
+    <Compile Include="ITraceResultWriter.cs" />
     <Compile Include="JsonTraceResultSerializer.cs" />
     <Compile Include="NoMethodTracingException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

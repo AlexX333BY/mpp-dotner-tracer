@@ -2,7 +2,7 @@
 
 namespace Tracer
 {
-    class FileTraceResultWriter : ITraceResultWriter
+    public class FileTraceResultWriter : ITraceResultWriter
     {
         public ITraceResultSerializer Serializer
         { set; protected get; }
