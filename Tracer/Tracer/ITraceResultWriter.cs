@@ -1,10 +1,10 @@
 ﻿namespace Tracer
 {
-    interface ITraceResultWriter
+    public interface ITraceResultWriter
     {
         ITraceResultSerializer Serializer
         { set; }
 
-        void Write();
+        void Write(TraceResult traceResult);
     }
 }
