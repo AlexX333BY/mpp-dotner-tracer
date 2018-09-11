@@ -9,8 +9,10 @@ namespace Tracer
 
         public void Write(TraceResult traceResult)
         {
-            Serializer.Stream = Console.OpenStandardOutput();
-            Serializer.SerializeTraceResult(traceResult);
+            using (Serializer.Stream = Console.OpenStandardOutput())
+            {
+                Serializer.SerializeTraceResult(traceResult);
+            }
         }
 
         public ConsoleTraceResultWriter()
