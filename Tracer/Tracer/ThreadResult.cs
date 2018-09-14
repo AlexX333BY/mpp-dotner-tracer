@@ -9,7 +9,7 @@ namespace Tracer
         private Stack<MethodResult> threadMethods;
         private List<MethodResult> tracedMethods;
 
-        [DataMember(Name = "id")]
+        [DataMember(Name = "id", Order = 0)]
         public int ThreadID
         { get; internal set; }
 
@@ -26,14 +26,14 @@ namespace Tracer
             }
         }
 
-        [DataMember(Name = "time")]
+        [DataMember(Name = "time", Order = 1)]
         public string TimeWithPostfix
         {
             get => Time.ToString() + "ms";
             private set { } // to allow serialization
         }
 
-        [DataMember(Name = "methods")]
+        [DataMember(Name = "methods", Order = 2)]
         public List<MethodResult> InnerMethods
         {
             get => new List<MethodResult>(tracedMethods);

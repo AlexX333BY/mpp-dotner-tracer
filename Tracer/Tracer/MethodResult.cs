@@ -10,11 +10,11 @@ namespace Tracer
         private List<MethodResult> innerMethods;
         private Stopwatch stopWatch;
 
-        [DataMember(Name = "name")]
+        [DataMember(Name = "name", Order = 0)]
         public string MethodName
         { get; internal set; }
 
-        [DataMember(Name = "class")]
+        [DataMember(Name = "class", Order = 1)]
         public string ClassName
         { get; internal set; }
 
@@ -23,14 +23,14 @@ namespace Tracer
             get => stopWatch.ElapsedMilliseconds;
         }
 
-        [DataMember(Name = "time")]
+        [DataMember(Name = "time", Order = 2)]
         public string TimeWithPostfix
         {
             get => Time.ToString() + "ms";
             private set { } // to allow serialization
         }
 
-        [DataMember(Name = "methods")]
+        [DataMember(Name = "methods", Order = 3)]
         public List<MethodResult> InnerMethods
         {
             get => new List<MethodResult>(innerMethods);
