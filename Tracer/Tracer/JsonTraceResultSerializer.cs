@@ -7,14 +7,11 @@ namespace Tracer
 {
     public class JsonTraceResultSerializer : ITraceResultSerializer
     {
-        public Stream Stream
-        { protected get; set; }
-
         protected readonly DataContractJsonSerializer jsonSerializer;
 
-        public void SerializeTraceResult(TraceResult traceResult)
+        public void SerializeTraceResult(TraceResult traceResult, Stream stream)
         {
-            using (XmlDictionaryWriter jsonWriter = JsonReaderWriterFactory.CreateJsonWriter(Stream, Encoding.UTF8, true, true))
+            using (XmlDictionaryWriter jsonWriter = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, ownsStream: true, indent: true))
             {
                 jsonSerializer.WriteObject(jsonWriter, traceResult);
             }
@@ -22,14 +19,7 @@ namespace Tracer
 
         public JsonTraceResultSerializer()
         {
-            Stream = null;
             jsonSerializer = new DataContractJsonSerializer(typeof(TraceResult));
-        }
-
-        public JsonTraceResultSerializer(Stream stream)
-            : this()
-        {
-            Stream = stream;
         }
     }
 }
