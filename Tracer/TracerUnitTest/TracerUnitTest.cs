@@ -112,7 +112,7 @@ namespace TracerUnitTest
             }
             TimeTest(actual, expected);
             Assert.AreEqual(threadsCount * threadsCount + threadsCount, result.ThreadResults.Count);
-            int mtmCount = 0, stmCount = 0;
+            int multiThreadedMethodCounter = 0, singleThreadedMethodCounter = 0;
             MethodResult methodResult;
             foreach (ThreadResult threadResult in result.ThreadResults)
             {
@@ -122,12 +122,12 @@ namespace TracerUnitTest
                 Assert.AreEqual("TracerUnitTest", methodResult.ClassName);
                 TimeTest(methodResult.Time, waitTime);
                 if (methodResult.MethodName == "MultiThreadedMethod")
-                    mtmCount++;
+                    multiThreadedMethodCounter++;
                 if (methodResult.MethodName == "SingleThreadedMethod")
-                    stmCount++;
+                    singleThreadedMethodCounter++;
             }
-            Assert.AreEqual(threadsCount, mtmCount);
-            Assert.AreEqual(threadsCount * threadsCount, stmCount);
+            Assert.AreEqual(threadsCount, multiThreadedMethodCounter);
+            Assert.AreEqual(threadsCount * threadsCount, singleThreadedMethodCounter);
         }
 
         [TestMethod]
