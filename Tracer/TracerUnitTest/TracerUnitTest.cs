@@ -119,11 +119,11 @@ namespace TracerUnitTest
                 Assert.AreEqual(threadResult.InnerMethods.Count, 1);
                 methodResult = threadResult.InnerMethods[0];
                 Assert.AreEqual(0, methodResult.InnerMethods.Count);
-                Assert.AreEqual("TracerUnitTest", methodResult.ClassName);
+                Assert.AreEqual(nameof(TracerUnitTest), methodResult.ClassName);
                 TimeTest(methodResult.Time, waitTime);
-                if (methodResult.MethodName == "MultiThreadedMethod")
+                if (methodResult.MethodName == nameof(MultiThreadedMethod))
                     multiThreadedMethodCounter++;
-                if (methodResult.MethodName == "SingleThreadedMethod")
+                if (methodResult.MethodName == nameof(SingleThreadedMethod))
                     singleThreadedMethodCounter++;
             }
             Assert.AreEqual(threadsCount, multiThreadedMethodCounter);
@@ -145,13 +145,13 @@ namespace TracerUnitTest
             TimeTest(tracer.GetTraceResult().ThreadResults[0].Time, waitTime * 2);
             Assert.AreEqual(1, traceResult.ThreadResults[0].InnerMethods.Count);
             MethodResult methodResult = traceResult.ThreadResults[0].InnerMethods[0];
-            Assert.AreEqual("TracerUnitTest", methodResult.ClassName);
-            Assert.AreEqual("InnerMethodTest", methodResult.MethodName);
+            Assert.AreEqual(nameof(TracerUnitTest), methodResult.ClassName);
+            Assert.AreEqual(nameof(InnerMethodTest), methodResult.MethodName);
             TimeTest(methodResult.Time, waitTime * 2);
             Assert.AreEqual(1, methodResult.InnerMethods.Count);
             MethodResult innerMethodResult = methodResult.InnerMethods[0];
-            Assert.AreEqual("TracerUnitTest", innerMethodResult.ClassName);
-            Assert.AreEqual("SingleThreadedMethod", innerMethodResult.MethodName);
+            Assert.AreEqual(nameof(TracerUnitTest), innerMethodResult.ClassName);
+            Assert.AreEqual(nameof(SingleThreadedMethod), innerMethodResult.MethodName);
             TimeTest(innerMethodResult.Time, waitTime);
         }
     }
