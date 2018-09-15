@@ -41,8 +41,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tracer">
-      <HintPath>..\Tracer\bin\Release\Tracer.dll</HintPath>
+    <Reference Include="Tracer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Tracer\bin\Debug\Tracer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

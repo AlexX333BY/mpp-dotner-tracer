@@ -68,14 +68,16 @@ namespace TracerUsageExample
         {
             tracer = new Tracer.Tracer();
             new ExampleMethods(tracer).MultiThreadedMethod();
-            ITraceResultSerializer serializer = new JsonTraceResultSerializer();
-            ITraceResultWriter writer = new ConsoleTraceResultWriter();
-            writer.Serializer = serializer;
-            writer.Write(tracer.GetTraceResult());
+
+            ITraceResultWriter writer;
+
+            writer = new ConsoleTraceResultWriter();
+            writer.Write(tracer.GetTraceResult(), new JsonTraceResultSerializer());
+
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            serializer = new XmlTraceResultSerializer();
-            writer = new FileTraceResultWriter(serializer, desktopPath + "\\xmlSerialized.xml");
-            writer.Write(tracer.GetTraceResult());
+            writer = new FileTraceResultWriter(desktopPath + "\\xmlSerialized.xml");
+            writer.Write(tracer.GetTraceResult(), new XmlTraceResultSerializer());
+
             Console.ReadKey();
         }
     }
