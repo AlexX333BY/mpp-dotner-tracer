@@ -2,9 +2,6 @@
 {
     public interface ITraceResultWriter
     {
-        ITraceResultSerializer Serializer
-        { set; }
-
-        void Write(TraceResult traceResult);
+        void Write(TraceResult traceResult, ITraceResultSerializer serializer);
     }
 }

@@ -1,28 +1,16 @@
 ﻿using System;
+using System.IO;
 
 namespace Tracer
 {
     public class ConsoleTraceResultWriter : ITraceResultWriter
     {
-        public ITraceResultSerializer Serializer
-        { set; protected get; }
-
-        public void Write(TraceResult traceResult)
+        public void Write(TraceResult traceResult, ITraceResultSerializer serializer)
         {
-            using (Serializer.Stream = Console.OpenStandardOutput())
+            using (Stream consoleOutputStream = Console.OpenStandardOutput())
             {
-                Serializer.SerializeTraceResult(traceResult);
+                serializer.SerializeTraceResult(traceResult, consoleOutputStream);
             }
-        }
-
-        public ConsoleTraceResultWriter()
-        {
-            Serializer = null;
-        }
-
-        public ConsoleTraceResultWriter(ITraceResultSerializer serializer)
-        {
-            Serializer = serializer;
         }
     }
 }
