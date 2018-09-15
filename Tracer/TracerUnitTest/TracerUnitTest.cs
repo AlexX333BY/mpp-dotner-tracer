@@ -12,10 +12,9 @@ namespace TracerUnitTest
         private static readonly int waitTime = 100;
         private static readonly int threadsCount = 4;
 
-        private void BoundedAssert(long actual, long expected)
+        private void TimeTest(long actual, long expected)
         {
-            const double error = 1.05;
-            Assert.IsTrue((actual >= expected) && (actual <= (expected * error)));
+            Assert.IsTrue(actual >= expected);
         }
 
         private void SingleThreadedMethod()
@@ -56,7 +55,7 @@ namespace TracerUnitTest
             Thread.Sleep(waitTime);
             tracer.StopTrace();
             long actual = tracer.GetTraceResult().ThreadResults[0].Time;
-            BoundedAssert(actual, waitTime);
+            TimeTest(actual, waitTime);
         }
 
         [TestMethod]
@@ -83,7 +82,7 @@ namespace TracerUnitTest
             {
                 actual += threadResult.Time;
             }
-            BoundedAssert(actual, expected);
+            TimeTest(actual, expected);
         }
 
         [TestMethod]
@@ -111,7 +110,7 @@ namespace TracerUnitTest
             {
                 actual += threadResult.Time;
             }
-            BoundedAssert(actual, expected);
+            TimeTest(actual, expected);
             Assert.AreEqual(threadsCount * threadsCount + threadsCount, result.ThreadResults.Count);
             int mtmCount = 0, stmCount = 0;
             MethodResult methodResult;
@@ -121,7 +120,7 @@ namespace TracerUnitTest
                 methodResult = threadResult.InnerMethods[0];
                 Assert.AreEqual(0, methodResult.InnerMethods.Count);
                 Assert.AreEqual("TracerUnitTest", methodResult.ClassName);
-                BoundedAssert(methodResult.Time, waitTime);
+                TimeTest(methodResult.Time, waitTime);
                 if (methodResult.MethodName == "MultiThreadedMethod")
                     mtmCount++;
                 if (methodResult.MethodName == "SingleThreadedMethod")
@@ -143,17 +142,17 @@ namespace TracerUnitTest
             TraceResult traceResult = tracer.GetTraceResult();
             
             Assert.AreEqual(1, traceResult.ThreadResults.Count);
-            BoundedAssert(tracer.GetTraceResult().ThreadResults[0].Time, waitTime * 2);
+            TimeTest(tracer.GetTraceResult().ThreadResults[0].Time, waitTime * 2);
             Assert.AreEqual(1, traceResult.ThreadResults[0].InnerMethods.Count);
             MethodResult methodResult = traceResult.ThreadResults[0].InnerMethods[0];
             Assert.AreEqual("TracerUnitTest", methodResult.ClassName);
             Assert.AreEqual("InnerMethodTest", methodResult.MethodName);
-            BoundedAssert(methodResult.Time, waitTime * 2);
+            TimeTest(methodResult.Time, waitTime * 2);
             Assert.AreEqual(1, methodResult.InnerMethods.Count);
             MethodResult innerMethodResult = methodResult.InnerMethods[0];
             Assert.AreEqual("TracerUnitTest", innerMethodResult.ClassName);
             Assert.AreEqual("SingleThreadedMethod", innerMethodResult.MethodName);
-            BoundedAssert(innerMethodResult.Time, waitTime);
+            TimeTest(innerMethodResult.Time, waitTime);
         }
     }
 }
