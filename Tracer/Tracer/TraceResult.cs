@@ -1,31 +1,28 @@
 ﻿using System.Runtime.Serialization;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace Tracer
 {
     [DataContract(Name = "result")]
     public class TraceResult
     {
-        private SortedDictionary<int, ThreadResult> threadResults;
-        private readonly object threadLock;
+        private ConcurrentDictionary<int, ThreadResult> threadResults;
 
         [DataMember(Name = "threads")]
         public List<ThreadResult> ThreadResults
         {
-            get => new List<ThreadResult>(threadResults.Values);
+            get => new List<ThreadResult>(new SortedDictionary<int, ThreadResult>(threadResults).Values);
             private set { } // to allow serialization
         }
 
         internal ThreadResult AddOrGetThreadResult(int id)
         {
             ThreadResult threadResult;
-            lock(threadLock)
+            if (!threadResults.TryGetValue(id, out threadResult))
             {
-                if (!threadResults.TryGetValue(id, out threadResult))
-                {
-                    threadResult = new ThreadResult(id);
-                    threadResults.Add(id, threadResult);
-                }
+                threadResult = new ThreadResult(id);
+                threadResults[id] = threadResult;
             }
             return threadResult;
         }
@@ -38,8 +35,7 @@ namespace Tracer
 
         internal TraceResult()
         {
-            threadLock = new object();
-            threadResults = new SortedDictionary<int, ThreadResult>();
+            threadResults = new ConcurrentDictionary<int, ThreadResult>();
         }
     }
 }
