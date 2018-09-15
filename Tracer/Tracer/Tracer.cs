@@ -17,9 +17,11 @@ namespace Tracer
         public void StartTrace()
         {
             MethodBase methodBase = new StackTrace().GetFrame(1).GetMethod();
-            MethodResult methodResult = new MethodResult();
-            methodResult.ClassName = methodBase.ReflectedType.Name;
-            methodResult.MethodName = methodBase.Name;
+            MethodResult methodResult = new MethodResult
+            {
+                ClassName = methodBase.ReflectedType.Name,
+                MethodName = methodBase.Name
+            };
             ThreadResult curThreadResult = traceResult.AddOrGetThreadResult(Thread.CurrentThread.ManagedThreadId);
             curThreadResult.StartTracingMethod(methodResult);
         }

@@ -19,8 +19,10 @@ namespace Tracer
 
         public XmlTraceResultSerializer()
         {
-            xmlWriterSettings = new XmlWriterSettings();
-            xmlWriterSettings.Indent = true;
+            xmlWriterSettings = new XmlWriterSettings
+            {
+                Indent = true
+            };
             xmlSerializer = new DataContractSerializer(typeof(TraceResult));
         }
     }
