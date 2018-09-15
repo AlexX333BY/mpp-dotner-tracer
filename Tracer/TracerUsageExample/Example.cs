@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using Tracer;
 
@@ -62,7 +60,7 @@ namespace TracerUsageExample
         }
     }
 
-    class Program
+    class Example
     {
         private static Tracer.Tracer tracer;
 
